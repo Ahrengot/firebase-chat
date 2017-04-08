@@ -32,11 +32,26 @@ const Message = props => {
     className += ' loader-msg';
   }
 
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  let extraProps = {};
+  if ( typeof props.content === 'string' && props.content.match(urlRegex) ) {
+    extraProps.dangerouslySetInnerHTML = {
+      __html: props.content.replace(urlRegex, url => {
+        return `<a href='${url}' target='_blank'>${url}</a>`;
+      })
+    }
+  } else {
+    extraProps.children = props.content;
+  }
+
   return (
     <li className={ className }>
       <Avatar src={props.author.avatar} name={props.author.name} />
       <div className="msg-body">
-        <div className="msg-content">{props.content}</div>
+        <div
+          className="msg-content"
+          {...extraProps}
+        />
         <footer
           className="msg-meta"
           style={{
