@@ -1,10 +1,22 @@
-# React.js project starter
-Basic starter with live-reloading and PostCSS
+![example](http://share.ahrengot.com/PDZevxbhDU.png)
 
-## What's included
-Nothing besides React and ReactDOM. This isn't your server-side rendering, reduxified, "depends on a bajillion modules" starter. This is for getting off the ground running as fast as possible with zero config.
+## Tech
+React, Firebase.
 
 ## Get started
-Open your terminal and run `yarn install && npm run dev`
+First, create `src/firebase-keys.js` and fill out your firebase config. It should look like this:
+
+```JavaScript
+export default {
+  apiKey: "...",
+  authDomain: "app-name.firebaseapp.com",
+  databaseURL: "https://app-name.firebaseio.com",
+  projectId: "app-name",
+  storageBucket: "app-name.appspot.com",
+  messagingSenderId: "..."
+}
+```
+
+Then, open your terminal and run `yarn install && npm run dev`
 
 ![](http://www.reactiongifs.com/r/ahwg.gif)
