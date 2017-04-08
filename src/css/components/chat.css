@@ -1,0 +1,116 @@
+.chat {
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+  padding-bottom: 3.2rem;
+
+  text-align: left;
+  min-height: calc(100vh - 15rem);
+}
+
+.msg-list {
+  list-style: none;
+  padding-left: 0;
+  animation: fadeIn 0.25s both ease-out;
+}
+
+.msg-body {
+  background: white;
+  padding: 0.7rem 0.9rem;
+
+  font-size: 1rem;
+  line-height: 1.3;
+  color: #555;
+
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.large-type-msg .msg-content {
+  font-size: 3.5rem;
+}
+
+.chat-msg:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.msg-meta {
+  margin-top: 0.5em;
+  font-size: 0.8rem;
+  color: #bbb;
+}
+
+.msg-avatar {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background-size: cover;
+}
+
+/**
+ * Temp loader message
+ */
+.chat-msg.loader-msg .loader {
+  margin: 1rem;
+  justify-content: flex-start;
+  transform: translateY(7px);
+}
+
+.chat-msg.loader-msg .loader > div {
+  width: 10px;
+  height: 10px;
+  margin: 0 0.3rem;
+  animation-duration: 1.6s;
+}
+
+.chat-msg.loader-msg .msg-body {
+  flex-grow: 0;
+}
+
+/**
+ * Style own and others differently
+ */
+
+.chat-msg {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+}
+
+.chat-msg .msg-body {
+  flex: 1 1 auto;
+}
+
+.chat-msg .msg-avatar {
+  flex-shrink: 0;
+  flex-grow: 0;
+  margin-right: 1rem;
+}
+
+.chat-msg.author-is-self {
+  flex-flow: row-reverse nowrap;
+}
+
+.chat-msg.author-is-self .msg-avatar {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+/**
+ * Animation
+ */
+.chat-msg.is-new .msg-body {
+  animation: transitionInMsg 0.7s both 0.1s cubic-bezier(0.175, 0.885, 0.320, 1.275);
+}
+
+@keyframes transitionInMsg {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+}

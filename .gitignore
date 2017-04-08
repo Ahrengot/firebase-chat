@@ -1,0 +1,6 @@
+.DS_Store
+*.log
+
+src/firebase-keys.js
+node_modules
+dist

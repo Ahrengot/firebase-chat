@@ -1,0 +1,26 @@
+.chat-heads {
+  margin: 0.7rem 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  list-style: none;
+  padding-left: 0;
+}
+
+.chat-heads > li {
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+}
+
+.chat-head-img {
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  background-size: cover;
+}
+
+.chat-head-name {
+  display: none;
+}

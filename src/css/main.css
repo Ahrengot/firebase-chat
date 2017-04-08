@@ -1,0 +1,37 @@
+@import "components/header";
+@import "components/chat";
+@import "components/chat-input";
+@import "components/chat-heads";
+@import "components/loader";
+
+html { font-size: 13px; }
+@media (min-width: 650px) {
+  html { font-size: 14px; }
+}
+@media (min-width: 1100px) {
+  html { font-size: 16px; }
+}
+
+body {
+  font-size: 1rem;
+}
+
+body, html {
+  background-color: #f7f7f9;
+}
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+.centered-container {
+  max-width: 35rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
