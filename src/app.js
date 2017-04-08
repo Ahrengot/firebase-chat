@@ -21,7 +21,6 @@ if ( navigator.userAgent.match(/i(Pad|Pod|Phone)/) ) {
 /**
  * Check for initial user
  */
-
 const wasUserPreviouslySignedIn = _.any(_.keys(localStorage), key => {
  return key.match(/firebase:authUser/);
 })
@@ -41,8 +40,10 @@ auth.onAuthStateChanged(user => {
 
      // If this is the first time our user logged in,
      // go ahead and add him to the users list
-     if ( !_.contains(_.pluck(window.state.users, 'id'), newUser.id ) ) {
-       usersRef.push(newUser);
+     if ( !window.state.isLoadingUsers ) {
+       if ( !_.contains(_.pluck(window.state.users, 'id'), newUser.id ) ) {
+         usersRef.push(newUser);
+       }
      }
    } else {
      update({
@@ -57,8 +58,10 @@ auth.onAuthStateChanged(user => {
  */
 const initialState = {
   title: "Chit / Chat",
+  "repoLink": "https://github.com/Ahrengot/firebase-chat",
   isLoadingMessages: true,
   isLoadingUser: wasUserPreviouslySignedIn,
+  isLoadingUsers: true,
   inputText: "",
   currentTime: _.now(),
   currentUser: null,
@@ -99,6 +102,10 @@ const usersTypingRef = database.ref('/usersCurrentlyTyping');
 
       if ( obj.key === 'messages' ) {
         newStateObj.isLoadingMessages = false;
+      }
+
+      if ( obj.key === 'users' ) {
+        newStateObj.isLoadingUsers = false;
       }
 
       update(newStateObj);
@@ -255,4 +262,27 @@ render(state);
  */
 window.logout = () => {
   auth.signOut();
+}
+
+/**
+ * Secret method for forcing refresh on all connected clients
+ */
+const appVersionRef = database.ref('/version');
+let appVersion = null;
+let isFirstRun = true;
+appVersionRef.on('value', snapshot => {
+  appVersion = _.last(_.map(snapshot.val(), (val, key) => {
+    return val;
+  }));
+
+  if ( isFirstRun ) {
+    isFirstRun = false;
+  } else {
+    alert(`Hooray! New features! App just updated to v${appVersion}`);
+    location.href = location.href;
+  }
+})
+
+window.incrementAppVersion = () => {
+  appVersionRef.push((appVersion || 0) + 1);
 }

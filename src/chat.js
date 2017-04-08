@@ -7,9 +7,12 @@ moment.locale('da');
 
 const Avatar = props => {
   return (
-    <div className="msg-avatar" style={{
-      backgroundImage: `url(${props.src})`
-    }}/>
+    <div
+      className="msg-avatar"
+      style={{
+        backgroundImage: `url(${props.src})`
+      }}
+    />
   )
 }
 
@@ -33,10 +36,13 @@ const Message = props => {
     <li className={ className }>
       <Avatar src={props.author.avatar} name={props.author.name} />
       <div className="msg-body">
-        <div className="msg-content">
-          {props.content}
-        </div>
-        <footer className="msg-meta" style={{display: props.isLoaderMsg ? 'none' : ''}}>
+        <div className="msg-content">{props.content}</div>
+        <footer
+          className="msg-meta"
+          style={{
+            display: props.isLoaderMsg ? 'none' : ''
+          }}
+        >
           { moment(props.createdAt).fromNow() }
         </footer>
       </div>

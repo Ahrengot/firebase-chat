@@ -5,18 +5,14 @@ const ChatHeads = props => {
     <ul className="chat-heads">
       {props.users.map(user => {
         return (
-          <li
-            key={user.id}
-          >
+          <li key={user.id}>
             <div
               className="chat-head-img"
               style={{
                 backgroundImage: `url(${user.avatar})`
               }}
             />
-            <div className="chat-head-name">
-              {user.name}
-            </div>
+            <div className="chat-head-name">{user.name}</div>
           </li>
         );
       })}
