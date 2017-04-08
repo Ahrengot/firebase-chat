@@ -36,7 +36,7 @@ const Message = props => {
         <div className="msg-content">
           {props.content}
         </div>
-        <footer className="msg-meta">
+        <footer className="msg-meta" style={{display: props.isLoaderMsg ? 'none' : ''}}>
           { moment(props.createdAt).fromNow() }
         </footer>
       </div>

@@ -28,14 +28,22 @@ const wasUserPreviouslySignedIn = _.any(_.keys(localStorage), key => {
 
 auth.onAuthStateChanged(user => {
    if (user) {
+     const newUser = {
+       id: user.providerData[0].uid,
+       name: user.displayName.split(" ")[0],
+       avatar: user.photoURL
+     };
+
      update({
-       currentUser: {
-         id: user.providerData[0].uid,
-         name: user.displayName.split(" ")[0],
-         avatar: user.photoURL
-       },
+       currentUser: newUser,
        isLoadingUser: false
      })
+
+     // If this is the first time our user logged in,
+     // go ahead and add him to the users list
+     if ( !_.contains(_.pluck(window.state.users, 'id'), newUser.id ) ) {
+       usersRef.push(newUser);
+     }
    } else {
      update({
        currentUser: null,
@@ -135,13 +143,7 @@ const LoginView = props => {
         disabled={props.isLoadingUser}
         onClick={() => {
           update({isLoadingUser: true});
-          auth.signInWithPopup(fbAuthProvider).then(result => {
-            // If this is the first time our user logged in,
-            // go ahead and add him to the users list
-            if ( !_.contains(_.pluck(window.state.users, 'id'), result.user.providerData[0].uid ) ) {
-              usersRef.push(window.state.currentUser);
-            }
-          }).catch(error => {
+          auth.signInWithPopup(fbAuthProvider).catch(error => {
             update({isLoadingUser: false});
             alert(error.message);
           });
@@ -177,6 +179,10 @@ const ChatView = props => {
         onSubmit={e => {
           e.preventDefault();
 
+          if ( props.inputText.length === 0 ) {
+            return;
+          }
+
           update({inputText: ''});
 
           msgsRef.push({
@@ -195,8 +201,16 @@ const ChatView = props => {
         onChange={e => {
           update({ inputText: e.target.value });
 
-          if ( !_.contains(_.pluck(props.usersCurrentlyTyping, 'fbId'), props.currentUser.id) ) {
-            usersTypingRef.push({fbId: props.currentUser.id});
+          if ( e.target.value.length === 0 ) {
+            const instancesOfMe = _.each(_.where(props.usersCurrentlyTyping, {
+              fbId: props.currentUser.id
+            }), userTyping => {
+              usersTypingRef.child(userTyping.id).remove();
+            });
+          } else {
+            if ( !_.contains(_.pluck(props.usersCurrentlyTyping, 'fbId'), props.currentUser.id) ) {
+              usersTypingRef.push({fbId: props.currentUser.id});
+            }
           }
         }}
         onFocus={() => {
