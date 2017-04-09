@@ -17,7 +17,7 @@ export default {
 }
 ```
 
-Note that this app expects read access for users without auth. Write access requires auth though.
+Note that this app expects public read access for `/users`. Write access for all data requires auth.
 
 Then, open your terminal and run `yarn install && npm run dev`
 
