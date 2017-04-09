@@ -1,7 +1,7 @@
 import './css/main.css';
 
 import _ from 'underscore'
-import React from 'react'
+import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
 import Chat from './chat';
 import ChatInputForm from './chat-input'
@@ -143,26 +143,28 @@ const render = state => {
 /**
  * App components
  */
-const LoginView = props => {
-  const btnText = props.isLoadingUser ? "Logger ind..." : "Log ind for at være med";
-  return (
-    <div className="centered-container" style={{maxWidth: '25rem', marginTop: '3rem'}}>
-      <button
-        type="button"
-        className="btn btn-primary btn-block btn-lg"
-        disabled={props.isLoadingUser}
-        onClick={() => {
-          update({isLoadingUser: true});
-          auth.signInWithPopup(fbAuthProvider).catch(error => {
-            update({isLoadingUser: false});
-            alert(error.message);
-          });
-        }}
-      >
-        {btnText}
-      </button>
-    </div>
-  )
+class LoginView extends PureComponent {
+  render() {
+    const btnText = this.props.isLoadingUser ? "Logger ind..." : "Log ind for at være med";
+    return (
+      <div className="centered-container" style={{maxWidth: '25rem', marginTop: '3rem'}}>
+        <button
+          type="button"
+          className="btn btn-primary btn-block btn-lg"
+          disabled={this.props.isLoadingUser}
+          onClick={() => {
+            update({isLoadingUser: true});
+            auth.signInWithPopup(fbAuthProvider).catch(error => {
+              update({isLoadingUser: false});
+              alert(error.message);
+            });
+          }}
+        >
+          {btnText}
+        </button>
+      </div>
+    );
+  }
 }
 
 const ChatView = props => {

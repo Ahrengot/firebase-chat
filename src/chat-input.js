@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-const ChatInputForm = props => {
-  return (
-    <form onSubmit={props.onSubmit} className="chat-input-form">
-      <input
-        type="text"
-        value={props.text}
-        onChange={props.onChange}
-        onFocus={props.onFocus}
-        autoComplete="off"
-        placeholder={props.placeholder}
-      />
-    </form>
-  )
+class ChatInputForm extends PureComponent {
+  render() {
+    return (
+      <form onSubmit={this.props.onSubmit} className="chat-input-form">
+        <input
+          type="text"
+          value={this.props.text}
+          onChange={this.props.onChange}
+          onFocus={this.props.onFocus}
+          autoComplete="off"
+          placeholder={this.props.placeholder}
+        />
+      </form>
+    );
+  }
 }
 
 export default ChatInputForm;
