@@ -1,4 +1,4 @@
-![example](http://share.ahrengot.com/PDZevxbhDU.png)
+![example](http://share.ahrengot.com/ANpKqRrvN8.png)
 
 ## Tech
 React, Firebase.
@@ -16,6 +16,8 @@ export default {
   messagingSenderId: "..."
 }
 ```
+
+Note that this app expects read access for users without auth. Write access requires auth though.
 
 Then, open your terminal and run `yarn install && npm run dev`
 
