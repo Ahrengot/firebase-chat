@@ -167,71 +167,73 @@ class LoginView extends PureComponent {
   }
 }
 
-const ChatView = props => {
-  let usersTyping = [];
-  if ( props.users.length && props.currentUser ) {
-    const usersTypingWithoutSelf = _.reject(props.usersCurrentlyTyping, user => {
-      return user.fbId === props.currentUser.id;
-    })
+class ChatView extends PureComponent {
+  render() {
+    let usersTyping = [];
+    if ( this.props.users.length && this.props.currentUser ) {
+      const usersTypingWithoutSelf = _.reject(this.props.usersCurrentlyTyping, user => {
+        return user.fbId === this.props.currentUser.id;
+      })
 
-    usersTyping = _.compact(usersTypingWithoutSelf.map(user => {
-      return _.findWhere(props.users, {id: user.fbId})
-    }));
-  }
-  return (
-    <div>
-      <Chat
-        users={props.users}
-        self={props.currentUser}
-        messages={props.users.length ? props.messages : []}
-        usersCurrentlyTyping={usersTyping}
-        loading={props.isLoadingMessages || props.isLoadingUser}
-      />
-      <ChatInputForm
-        onSubmit={e => {
-          e.preventDefault();
+      usersTyping = _.compact(usersTypingWithoutSelf.map(user => {
+        return _.findWhere(this.props.users, {id: user.fbId})
+      }));
+    }
+    return (
+      <div>
+        <Chat
+          users={this.props.users}
+          self={this.props.currentUser}
+          messages={this.props.users.length ? this.props.messages : []}
+          usersCurrentlyTyping={usersTyping}
+          loading={this.props.isLoadingMessages || this.props.isLoadingUser}
+        />
+        <ChatInputForm
+          onSubmit={e => {
+            e.preventDefault();
 
-          if ( props.inputText.length === 0 ) {
-            return;
-          }
+            if ( this.props.inputText.length === 0 ) {
+              return;
+            }
 
-          update({inputText: ''});
+            update({inputText: ''});
 
-          msgsRef.push({
-            author: props.currentUser.id,
-            content: props.inputText,
-            createdAt: _.now()
-          })
+            msgsRef.push({
+              author: this.props.currentUser.id,
+              content: this.props.inputText,
+              createdAt: _.now()
+            })
 
-          const instancesOfMe = _.each(_.where(props.usersCurrentlyTyping, {
-            fbId: props.currentUser.id
-          }), userTyping => {
-            usersTypingRef.child(userTyping.id).remove();
-          });
-        }}
-        text={props.inputText}
-        onChange={e => {
-          update({ inputText: e.target.value });
-
-          if ( e.target.value.length === 0 ) {
-            const instancesOfMe = _.each(_.where(props.usersCurrentlyTyping, {
-              fbId: props.currentUser.id
+            const instancesOfMe = _.each(_.where(this.props.usersCurrentlyTyping, {
+              fbId: this.props.currentUser.id
             }), userTyping => {
               usersTypingRef.child(userTyping.id).remove();
             });
-          } else {
-            if ( !_.contains(_.pluck(props.usersCurrentlyTyping, 'fbId'), props.currentUser.id) ) {
-              usersTypingRef.push({fbId: props.currentUser.id});
+          }}
+          text={this.props.inputText}
+          onChange={e => {
+            update({ inputText: e.target.value });
+
+            if ( e.target.value.length === 0 ) {
+              const instancesOfMe = _.each(_.where(this.props.usersCurrentlyTyping, {
+                fbId: this.props.currentUser.id
+              }), userTyping => {
+                usersTypingRef.child(userTyping.id).remove();
+              });
+            } else {
+              if ( !_.contains(_.pluck(this.props.usersCurrentlyTyping, 'fbId'), props.currentUser.id) ) {
+                usersTypingRef.push({fbId: props.currentUser.id});
+              }
             }
-          }
-        }}
-        onFocus={() => {
-          scrollToBottom()
-        }}
-        placeholder="Jeg synes, at du skal skrive noget her ..."
-      />
-    </div>
-  )
+          }}
+          onFocus={() => {
+            scrollToBottom()
+          }}
+          placeholder="Jeg synes, at du skal skrive noget her ..."
+        />
+      </div>
+    );
+  }
 }
 
 const App = props => {

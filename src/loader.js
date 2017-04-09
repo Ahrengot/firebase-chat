@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-const Loader = props => {
-  return (
-    <div className="loader" style={{display: props.loading ? '' : 'none'}}>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-  )
+class Loader extends PureComponent {
+  render() {
+    return (
+      <div className="loader" style={{display: this.props.loading ? '' : 'none'}}>
+        <div /><div /><div />
+      </div>
+    )
+  }
 }
 
 export default Loader
