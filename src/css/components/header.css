@@ -10,23 +10,8 @@
   letter-spacing: 0.05em;
   color: #666;
 
-  animation: transitionInTitle 2s both 0.1s cubic-bezier(0.455, 0.030, 0.515, 0.955);
 }
 
 .header a[href*="github.com"] {
   animation: fadeIn 0.65s both 2.4s ease-out;
-}
-
-@keyframes transitionInTitle {
-  from {
-    letter-spacing: -0.05em;
-    opacity: 0;
-    transform: scale(0.85);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
 }

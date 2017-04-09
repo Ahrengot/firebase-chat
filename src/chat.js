@@ -1,7 +1,6 @@
 import _ from 'underscore';
 import React from 'react';
 import moment from 'moment'
-import Loader from './loader';
 
 moment.locale('da');
 
@@ -94,7 +93,6 @@ const Chat = props => {
           )
         })}
       </ul>
-      <Loader loading={props.loading} />
     </div>
   );
 };

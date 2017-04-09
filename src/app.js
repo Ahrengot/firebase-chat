@@ -6,6 +6,8 @@ import ReactDOM from 'react-dom'
 import Chat from './chat';
 import ChatInputForm from './chat-input'
 import ChatHeads from './chat-heads'
+import Loader from './loader';
+
 
 import firebase, { auth, fbAuthProvider, database } from './firebase-config'
 
@@ -58,7 +60,7 @@ auth.onAuthStateChanged(user => {
  */
 const initialState = {
   title: "Chit / Chat",
-  "repoLink": "https://github.com/Ahrengot/firebase-chat",
+  repoLink: "https://github.com/Ahrengot/firebase-chat",
   isLoadingMessages: true,
   isLoadingUser: wasUserPreviouslySignedIn,
   isLoadingUsers: true,
@@ -108,6 +110,7 @@ const usersTypingRef = database.ref('/usersCurrentlyTyping');
         newStateObj.isLoadingUsers = false;
       }
 
+
       update(newStateObj);
     }
 
@@ -120,7 +123,7 @@ setInterval(() => {
   })
 }, 1000);
 
-const update = (newState, oldState = state) => {
+const update = (newState, oldState = window.state) => {
   render(Object.assign({}, oldState, newState));
 
   // Scroll window to the bottom if messages update
@@ -240,9 +243,10 @@ const App = props => {
         {!props.isLoadingUser && !props.currentUser && (
           <LoginView {...props} />
         )}
-        {(props.currentUser) && (
+        {(props.currentUser && _.contains(_.pluck(props.users, 'id'), props.currentUser.id)) && (
           <ChatView {...props} />
         )}
+        <Loader loading={props.isLoadingMessages || props.isLoadingUsers} />
       </div>
     </div>
   )
